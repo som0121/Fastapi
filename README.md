@@ -1,5 +1,4 @@
-﻿# FastAPI Project
-# FastAPI Project
+
 # FastAPI Project - Fast Api
 
 A simple RESTful API built with FastAPI for managing posts and votes.
@@ -23,5 +22,6 @@ A simple RESTful API built with FastAPI for managing posts and votes.
 - **Version Control:** Git, GitHub
 
 ## Project Structure
+
 
 
