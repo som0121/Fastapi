@@ -21,7 +21,6 @@ A simple RESTful API built with FastAPI for managing posts and votes.
 - **ORM:** SQLAlchemy
 - **Version Control:** Git, GitHub
 
-## Project Structure
 
 
 
