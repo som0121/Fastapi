@@ -10,7 +10,7 @@ A simple RESTful API built with FastAPI for managing posts and votes.
 - PostgreSQL database integration
 - Alembic migrations for database schema
 - Fully asynchronous API endpoints
-- JWT authentication (if implemented)
+- JWT authentication
 - Modular project structure for scalability
 
 ## Tech Stack
@@ -22,6 +22,7 @@ A simple RESTful API built with FastAPI for managing posts and votes.
 - **Version Control:** Git, GitHub
 
 ## Project Structure
+
 
 
 
