@@ -32,7 +32,6 @@ Built with scalability, readability, and real-world API design standards in mind
 - Deployment: Docker, GitHub Actions (CI/CD)
 
 - # Project Structure
-
 FastAPI/
 │── .github/
 │ └── workflows/
@@ -76,4 +75,7 @@ FastAPI/
 │── docker-compose-production.yml
 │── dockerfile
 │── README.md
+
+
+
 
