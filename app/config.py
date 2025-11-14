@@ -12,6 +12,5 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-
+        case_sensitive = False   
 settings = Settings()
-print("Loaded env:", settings.database_hostname) 
