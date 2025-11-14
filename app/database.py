@@ -1,30 +1,23 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
-from urllib.parse import quote_plus
-from pathlib import Path
+from .config import settings
 import os
 
-env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+if os.getenv("GITHUB_ACTIONS") == "true":
+    db_name = settings.database_name + "_test"
+else:
+    db_name = settings.database_name
 
-DB_HOST = os.getenv("DATABASE_HOSTNAME")
-DB_PORT = os.getenv("DATABASE_PORT")
-DB_NAME = os.getenv("DATABASE_NAME")
-DB_USER = os.getenv("DATABASE_USERNAME")
-DB_PASS = os.getenv("DATABASE_PASSWORD")
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql://{settings.database_username}:"
+    f"{settings.database_password}@"
+    f"{settings.database_hostname}:"
+    f"{settings.database_port}/"
+    f"{db_name}"
+)
 
-print("DEBUG: HOST =", repr(DB_HOST))
-print("DEBUG: USER =", repr(DB_USER))
-print("DEBUG: PASS =", repr(DB_PASS))
-
-
-DB_PASS_ENCODED = quote_plus(DB_PASS) if DB_PASS else ""
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-print("DATABASE_URL:", DATABASE_URL)
-
-engine = create_engine(DATABASE_URL)
+print("DATABASE_URL:", SQLALCHEMY_DATABASE_URL)  
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
