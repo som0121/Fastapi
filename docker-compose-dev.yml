@@ -5,7 +5,7 @@ services:
     container_name: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "som@123"
+      POSTGRES_PASSWORD: "som%40123"
       POSTGRES_DB: fastapi
     ports:
       - "5432:5432"
@@ -26,7 +26,7 @@ services:
       DATABASE_HOSTNAME: postgres
       DATABASE_PORT: 5432
       DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: "som@123"
+      DATABASE_PASSWORD: "som%40123"
       DATABASE_NAME: fastapi
       SECRET_KEY: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
       ALGORITHM: HS256
