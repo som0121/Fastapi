@@ -19,11 +19,9 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-   
-    op.create_foreign_key('post_users_fk',source_table="posts",referent_table="users",
-        local_cols=['owner_id'],remote_cols=['id'],ondelete="CASCADE")
-pass
+    # Superseded by 84ed2ac6556c, which creates the full schema.
+    pass
+
 
 def downgrade() -> None:
-    op.drop_constraint('post_users_fk', table_name="posts")
-    
+    pass

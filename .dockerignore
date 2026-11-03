@@ -1,0 +1,29 @@
+# Secrets - pass configuration as environment variables instead
+.env
+.env.*
+!.env.example
+
+# Local environments and caches
+venv/
+env/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# VCS, editor and docs
+.git/
+.github/
+.gitignore
+.vscode/
+.idea/
+*.md
+*.txt
+!requirements*.txt
+s -ExecutionPolicy*
+
+# Docker files
+dockerfile
+Dockerfile
+docker-compose*.yml
+.dockerignore

@@ -1,34 +1,39 @@
-version: "3.9"
-
+# Production stack. All settings must be provided by the host environment
+# (exported variables or an .env file next to this compose file).
 services:
   postgres:
     image: postgres:18
-    container_name: postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: " "
-      POSTGRES_DB: fastapi
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${DATABASE_USERNAME:?DATABASE_USERNAME is required}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
+      POSTGRES_DB: ${DATABASE_NAME:?DATABASE_NAME is required}
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      # PostgreSQL 18+ images store data under /var/lib/postgresql/<version>
+      - postgres-db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   api:
-    image: som02511/fastapi
-    container_name: api
+    image: som02511/fastapi:${API_IMAGE_TAG:-latest}
+    restart: unless-stopped
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "80:8000"
     environment:
-      DATABASE_HOSTNAME: ${DATABASE_HOSTNAME}
-      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_HOSTNAME: postgres
+      DATABASE_PORT: 5432
       DATABASE_USERNAME: ${DATABASE_USERNAME}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}   
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_NAME: ${DATABASE_NAME}
-      SECRET_KEY: ${SECRET_KEY}
-      ALGORITHM: ${ALGORITHM}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY is required}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
 
 volumes:
   postgres-db:

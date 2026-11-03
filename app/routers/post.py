@@ -14,7 +14,7 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schema.PostOut])
-def test_posts(
+def get_posts(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(oauth2.get_current_user),
     limit: int = 10,
@@ -61,7 +61,7 @@ def create_posts(
 ):
     new_post = models.Post(
         owner_id=current_user.id,
-        **post.dict()
+        **post.model_dump()
     )
 
     db.add(new_post)
@@ -186,7 +186,7 @@ def update_post(
         )
 
     post_query.update(
-        updated_post.dict(),
+        updated_post.model_dump(),
         synchronize_session=False
     )
 

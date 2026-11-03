@@ -18,14 +18,10 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
-def upgrade():
-    op.add_column('posts',sa.column('published'),sa.Boolean(),nullable=False,server_default='TRUE'),
-    op.add_column('posts'),sa.column('created_at',sa.TIMESTAMP(timezone=True),nullable=False,server_default=sa.text('Now()')),
-   
+def upgrade() -> None:
+    # Superseded by 84ed2ac6556c, which creates the full schema.
     pass
 
 
 def downgrade() -> None:
-    op.drop_column('posts','published')
-    op.drop_column('posts','created_at')
     pass

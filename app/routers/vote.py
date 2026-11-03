@@ -1,5 +1,5 @@
 from fastapi import (
-    FastAPI, Response, status, HTTPException, Depends, APIRouter
+    status, HTTPException, Depends, APIRouter
 )
 from sqlalchemy.orm import Session
 from .. import schema, database, models, oauth2
@@ -13,7 +13,7 @@ router = APIRouter(
 def vote(
     vote: schema.Vote,
     db: Session = Depends(database.get_db),
-    current_user: int = Depends(oauth2.get_current_user)
+    current_user: models.User = Depends(oauth2.get_current_user)
 ):
 
     post = db.query(models.Post).filter(models.Post.id == vote.post_id).first()

@@ -1,7 +1,6 @@
 import os
 import sys
 from logging.config import fileConfig
-from urllib.parse import quote_plus
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
@@ -9,18 +8,15 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from app.models import Base
 from app.config import settings
+from app.database import get_database_url
 
 
 config = context.config
 
 
-encoded_password = quote_plus(settings.database_password).replace("%", "%%")
-
-config.set_main_option(
-    "sqlalchemy.url",
-    f"postgresql+psycopg2://{settings.database_username}:{encoded_password}@"
-    f"{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
-)
+# "%" must be doubled because Alembic's config uses ConfigParser interpolation
+database_url = get_database_url(settings.database_name).render_as_string(hide_password=False)
+config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)

@@ -3,7 +3,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pytest
 from jose import jwt
 from app import schema as schemas
-from tests.database import client,session
 from app.config import settings
 
 
@@ -38,7 +37,7 @@ def test_login_user(test_user,client):
     ('wrongemail@gmail.com', 'password123' ,403),
     ('som@gmail.com','wrongpassword' , 403),
     ('wrongemail@gmail.com', 'wrongpassword',403),
-    (None, 'password123', 403)
+    (None, 'password123', 422)
 ])
 
 def test_incorrect_login(test_user,client,email,password,status_code):

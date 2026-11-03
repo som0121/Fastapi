@@ -7,20 +7,12 @@ from sqlalchemy import create_engine
 from app.main import app
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
-from app.database import get_db
+from app.database import get_db, get_database_url
 from app.database import Base
 from app.oauth2 import create_access_token
 from app import models
-from urllib.parse import quote_plus
 
-#SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:password123@localhost:5432/fastapi_test'
-
-DATABASE_URL = (
-    f"postgresql://{settings.database_username}:"
-    f"{quote_plus(settings.database_password)}@"
-    f"{settings.database_hostname}:{settings.database_port}/"
-    f"{settings.database_name}_test"
-)
+DATABASE_URL = get_database_url(f"{settings.database_name}_test")
 
 engine = create_engine(DATABASE_URL)
 
